@@ -27,10 +27,17 @@ const port = process.env.PORT || 3000
 
 app.get('/event', (req, res) => {
   var ob = {
-    "error": {
-      "message": "Parameter data type mismatch",
-      "details": "offset parameter should be integer"
-    }
+    "eventid": 45345,
+    "eventName": "Birabiro",
+    "eventDescription": "A diplo concert",
+    "startDate": "Jan-08-20",
+    "endDate": "Jan-08-20",
+    "startTime": "08:30:00",
+    "endTime": "12:00:00",
+    "eventStatus": "SCHEDULED",
+    "tickStat": "OPEN",
+    "idHall": 34,
+    "idVenue": 56
   }
   res.send(ob)
 })
