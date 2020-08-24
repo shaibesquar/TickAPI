@@ -39,7 +39,8 @@ app.get('/event', (req, res) => {
     "idHall": 34,
     "idVenue": 56
   }
-  res.send(ob)
+  res.set('Content-Type','application/json')
+  res.status(200).send(ob)
 })
 
 app.listen(port, () => {
