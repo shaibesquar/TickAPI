@@ -1,10 +1,11 @@
+'use strict';
 //var createError = require('http-errors');
-//var express = require('express');
+var express = require('express');
 //var path = require('path');
 //var cookieParser = require('cookie-parser');
 //var logger = require('morgan');
 
-//var indexRouter = require('./routes/index');
+var eventRouter = require('./routes/events');
 //var usersRouter = require('./routes/users');
 
 //var app = express();
@@ -19,12 +20,10 @@
 //app.use('/', indexRouter);
 //app.use('/users', usersRouter);
 
-// catch 404 and forward to error handler
 
-const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
-
+/*
 app.get('/event', (req, res) => {
   var ob = {
     "eventid": 45345,
@@ -47,3 +46,9 @@ app.get('/event', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
+*/
+
+app.use(express.json());
+app.use('/event',eventRouter);
+
+app.listen(port);
