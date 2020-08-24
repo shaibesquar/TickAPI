@@ -40,6 +40,7 @@ app.get('/event', (req, res) => {
     "idVenue": 56
   }
   res.set('Content-Type','application/json')
+  res.set('Access-Control-Allow-Origin','*')
   res.status(200).send(ob)
 })
 
