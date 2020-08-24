@@ -25,8 +25,14 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+app.get('/event', (req, res) => {
+  var ob = {
+    "error": {
+      "message": "Parameter data type mismatch",
+      "details": "offset parameter should be integer"
+    }
+  }
+  res.send(ob)
 })
 
 app.listen(port, () => {
