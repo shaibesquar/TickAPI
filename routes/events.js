@@ -12,6 +12,10 @@ eventRouter.get('/',(req,res,next)=>{
      ha: req.query.ha
    } 
    console.log(reqParams)
+   res.set('Content-Type','application/json')
+   res.set('Access-Control-Allow-Origin','*')
+   res.send({reqParams})
+   res.end()
 });
 
 eventRouter.post('/',(req,res,next)=>{
