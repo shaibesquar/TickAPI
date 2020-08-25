@@ -7,27 +7,30 @@ const eventReqSchema = Joi.object({
   limit: Joi.number()
             .integer()
             .min(0),
-  page: Joi.number()
+  page:  Joi.number()
            .integer()
            .min(0),
-  evst: Joi.string().valid("SCHEDULED","STOPPED","ON-HOLD","IN-PROGRESS","COMPLETED","CANCELLED"),
-  tkst: Joi.string().valid("OPEN","CLOSED"),  
-  ven: Joi.number().integer(),
-  ha: Joi.number().integer()
+  evst:  Joi.string().valid("SCHEDULED","STOPPED","ON-HOLD","IN-PROGRESS","COMPLETED","CANCELLED"),
+  tkst:  Joi.string().valid("OPEN","CLOSED"),  
+  ven:   Joi.number().integer(),
+  ha:    Joi.number().integer()
 })
 
 
 
 eventRouter.get('/',(req,res,next)=>{
    var reqParams = {
-     limit: req.query.limit,
-     offset: req.query.offset,
+     limit: req.query.limit || 10,
+     offset: req.query.offset || 0,
      evst: req.query.evst,
      tkst: req.query.tkst,
      ven: req.query.ven,
      ha: req.query.ha
    } 
-   var query = select 
+   var validReqParams = eventReqSchema.validate(reqParams); 
+  
+   console.log(reqParams)
+
 });
 
 eventRouter.post('/',(req,res,next)=>{
@@ -37,10 +40,6 @@ eventRouter.post('/',(req,res,next)=>{
 eventRouter.put('/',(req,res,next)=>{
   
 });
-
-eventRouter.delete('/',()=>{
-
-})
 
 eventRouter.get('/:eventId(\\d+)',(req,res,next)=>{
   
