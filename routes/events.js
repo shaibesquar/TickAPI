@@ -1,5 +1,21 @@
 var express = require('express')
 var eventRouter = express.Router()
+var dbpool = require('../db.js');
+const Joi = require('joi')
+
+const eventReqSchema = Joi.object({
+  limit: Joi.number()
+            .integer()
+            .min(0),
+  page: Joi.number()
+           .integer()
+           .min(0),
+  evst: Joi.string().valid("SCHEDULED","STOPPED","ON-HOLD","IN-PROGRESS","COMPLETED","CANCELLED"),
+  tkst: Joi.string().valid("OPEN","CLOSED"),  
+  ven: Joi.number().integer(),
+  ha: Joi.number().integer()
+})
+
 
 
 eventRouter.get('/',(req,res,next)=>{
@@ -11,8 +27,7 @@ eventRouter.get('/',(req,res,next)=>{
      ven: req.query.ven,
      ha: req.query.ha
    } 
-   console.log(reqParams)
-   
+   var query = select 
 });
 
 eventRouter.post('/',(req,res,next)=>{
