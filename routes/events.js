@@ -1,37 +1,54 @@
 var express = require('express')
 var eventRouter = express.Router()
 var dbpool = require('../db.js');
-const Joi = require('joi')
+const Joi = require('joi');
+const e = require('express');
 
-const eventReqSchema = Joi.object({
-  limit: Joi.number()
+
+function validateGETReqParams(req) {
+
+if (typeof req.evst != "object" && req.evst != undefined)
+  req.evst = [req.evst]
+if (typeof req.tkst != "object" && req.tkst != undefined) 
+  req.tkst = [req.tkst] 
+
+  /*
+   GET request parameter schema
+ */
+
+ const getEventParamSchema = Joi.object({
+    limit: Joi.number()
             .integer()
-            .min(0),
-  page:  Joi.number()
+            .min(1),
+    page:  Joi.number()
            .integer()
-           .min(0),
-  evst:  Joi.string().valid("SCHEDULED","STOPPED","ON-HOLD","IN-PROGRESS","COMPLETED","CANCELLED"),
-  tkst:  Joi.string().valid("OPEN","CLOSED"),  
-  ven:   Joi.number().integer(),
-  ha:    Joi.number().integer()
-})
+           .min(1),
+    evst:  Joi.array().items(Joi.string().valid("SCHEDULED","STOPPED","ON-HOLD","IN-PROGRESS","COMPLETED","CANCELLED")),
+    tkst:  Joi.array().items(Joi.string().valid("SCHEDULED","OPEN","CLOSED")),  
+    ven:   Joi.number().integer().min(1),
+    ha:    Joi.number().integer().min(1),
+    name:  Joi.string().min(1),
+    desc:  Joi.bool()
+ }).unknown(false);
+ 
+ var {value, error} = getEventParamSchema.validate(req)
 
+ if(error)
+   return error.details[0].message
+ return value
+
+}
 
 
 eventRouter.get('/',(req,res,next)=>{
-   var reqParams = {
-     limit: req.query.limit || 10,
-     offset: req.query.offset || 0,
-     evst: req.query.evst,
-     tkst: req.query.tkst,
-     ven: req.query.ven,
-     ha: req.query.ha
-   } 
-   var validReqParams = eventReqSchema.validate(reqParams); 
-  
-   console.log(reqParams)
 
+   console.log(validateGETReqParams(req.query))
+   
 });
+
+eventRouter.use((req,res,next)=>{
+  console.log(next)
+})
 
 eventRouter.post('/',(req,res,next)=>{
   
